@@ -26,6 +26,8 @@
 
 #define TIMESYNC_INTERVAL_SECONDS (60UL*60*12)  //usually, the ccu sends a cyclic timestamp message. if this message is missing, request a new time from ccu
 #define TIMESYNC_MAX_TRIES         6
+
+const String strDays[7]  =  {"SAT", "SUN", "MON", "TUE", "WED", "THU", "FRI"};
 // all library classes are placed in the namespace 'as'
 using namespace as;
 
@@ -122,7 +124,7 @@ private:
     }
 
     void refreshDayProfileFromList1(uint8_t dow) {
-      DPRINT("refreshDayProfileFromList1(day=");DDEC(dow);DPRINTLN(")");
+      DPRINT("refreshDayProfileFromList1(day=");DPRINT(strDays[dow]);DPRINTLN(")");
       for (uint8_t idx = 0; idx < PROFILES_PER_DAY; idx++) {
         dayProfile[idx].endtime = swc.getList1().ENDTIME(dow, idx);
         dayProfile[idx].level   = swc.getList1().LEVEL  (dow, idx);
@@ -204,8 +206,8 @@ public:
 
   void dumpDayProfileFromList1(uint8_t dow) {
     for (uint8_t idx = 0; idx < PROFILES_PER_DAY; idx++) {
-      DPRINT("ENDTIME_");DDEC(dow);DPRINT("_");DDEC(idx);DPRINT("=\t");DDEC(this->getList1().ENDTIME(dow, idx));
-      DPRINT("\t: LEVEL_");DDEC(dow);DPRINT("_");DDEC(idx);DPRINT(":\t");DDECLN(this->getList1().LEVEL(dow, idx));
+      DPRINT("ENDTIME_");DPRINT(strDays[dow]);DPRINT("_");DDEC(idx);DPRINT("=\t");DDEC(this->getList1().ENDTIME(dow, idx));
+      DPRINT("\t: LEVEL_");DPRINT(strDays[dow]);DPRINT("_");DDEC(idx);DPRINT(":\t");DDECLN(this->getList1().LEVEL(dow, idx));
     }
   }
   void dumpAllProfilesFromList1() {
